@@ -74,32 +74,36 @@ async def test_model():
     for file in os.scandir(IMAGES_PATH):
         os.remove(file.path)
 
-    video_path = os.path.join(DATA_PATH, os.listdir(DATA_PATH)[0])
-    video_to_frames(video_path)
-    test_data = []
-    for img_path in os.listdir(IMAGES_PATH):
-        test_data_img = img_to_tensor(
-            IMAGES_PATH+img_path)
-        test_data.append(test_data_img)
+    try:
+        video_path = os.path.join(DATA_PATH, os.listdir(DATA_PATH)[0])
+        video_to_frames(video_path)
+        test_data = []
+        for img_path in os.listdir(IMAGES_PATH):
+            test_data_img = img_to_tensor(
+                IMAGES_PATH+img_path)
+            test_data.append(test_data_img)
 
-    test_data_loader = DataLoader(test_data, batch_size=5,
-                                  shuffle=False, num_workers=0)
+        test_data_loader = DataLoader(test_data, batch_size=5,
+                                    shuffle=False, num_workers=0)
 
-    # Test Model
-    y_pred_list = []
-    names = []
-    with torch.no_grad():
-        model.eval()
-        for X_batch, y_batch in test_data_loader:
-            X_batch = X_batch.to(device)
-            y_test_pred = model(X_batch)
-            _, y_pred_tags = torch.max(y_test_pred, dim=1)
-            names.append(list(y_batch))
-            y_pred_list.append(y_pred_tags.cpu().numpy())
+        # Test Model
+        y_pred_list = []
+        names = []
+        with torch.no_grad():
+            model.eval()
+            for X_batch, y_batch in test_data_loader:
+                X_batch = X_batch.to(device)
+                y_test_pred = model(X_batch)
+                _, y_pred_tags = torch.max(y_test_pred, dim=1)
+                names.append(list(y_batch))
+                y_pred_list.append(y_pred_tags.cpu().numpy())
 
-    y_pred_list = [a.squeeze().tolist() for a in y_pred_list]
-    # one big list
-    y_pred_list_flat = [item for sublist in y_pred_list for item in sublist]
-    names_img = [item for sublist in names for item in sublist]
+        y_pred_list = [a.squeeze().tolist() for a in y_pred_list]
+        # one big list
+        y_pred_list_flat = [item for sublist in y_pred_list for item in sublist]
+        names_img = [item for sublist in names for item in sublist]
 
-    return {'image_paths': names_img, 'label': y_pred_list_flat}
+        return {'image_paths': names_img, 'label': y_pred_list_flat}
+    
+    except:
+        return 'error'
