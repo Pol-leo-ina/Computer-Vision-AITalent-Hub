@@ -1,46 +1,24 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import React from "react";
+import ReactDOM from 'react-dom/client';
+//import { ReactDom } from "react-dom";
+//import { BrowserRouter } from 'react-router-dom'
 
 import App from "./App";
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
-
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <StrictMode>
+  <React.StrictMode>
     <App />
-  </StrictMode>
+  </React.StrictMode>
 );
 
-
-//Получение данных от сервера
-urlGet = "http://localhost:8005/"
-const getData = async () => {
-  return fetch(urlGet, {
-    method: 'GET',
-  })
-  .then(response => response.json())
-}
-
-//Отправка данных на сервер
-urlSend = "http://localhost:8005/upload-video"
-const sendData = async (data) => {
-  return fetch(urlSend, {
-    method: 'POST',
-    body: data
-  })
-  .then(response => response.json())
-}
-
-
-getData()
-    .then(data => {
-        // Обработка data. data - dict с ключами, которые скинул выше
-        console.log(data)
-})
-
-sendData()
-    .then(data => {
-        // Обработка data. data - dict с ключами, которые скинул выше
-        console.log(data)
-})
+/*
+ReactDom.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+*/

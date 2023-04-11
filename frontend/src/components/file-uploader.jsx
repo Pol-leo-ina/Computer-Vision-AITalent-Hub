@@ -1,5 +1,18 @@
+import "../styles/file-uploader.css";
 import React, { useState } from "react";
-import "./file-uploader.css";
+//import React from "react";
+//import ReactDOM from "react-dom";
+
+class OnSecondPageButton extends React.Component {
+  onclick () {
+    window.location.assign('http://localhost:3000/second/');
+  }
+
+  render() {
+    return (<a onClick={(e) => this.onclick(e)}><i className="fas fa-chart-bar"></i></a>);
+  }
+}
+//export default Statistics_button;
 
 export const FileUploader = () => {
   const [image, setImage] = useState();
@@ -54,6 +67,13 @@ export const FileUploader = () => {
         onDragOver={handleDragEmpty}
       />
       <div className="file-uploader__file-name">{image ? image.name : ""}</div>
+      <button
+          htmlFor="file-start-button"
+          className="file-start__custom-button"
+          onClick={OnSecondPageButton}
+        >
+          Запустить программу
+        </button>
     </form>
   );
 };
