@@ -1,0 +1,18 @@
+in cmd1:
+
+git clone https://github.com/Pol-leo-ina/Computer-Vision-AITalent-Hub.git
+cd Computer-Vision-AITalent-Hub
+git switch dev
+cd backend
+python main.py
+
+in cmd2:
+cd Computer-Vision-AITalent-Hub
+cd frontend
+npm install
+npm start
+
+
+1. Переходим на сайт http://localhost:8005/
+2. Загружаем файл test.mp4
+3. Запускаем программу и ждём
