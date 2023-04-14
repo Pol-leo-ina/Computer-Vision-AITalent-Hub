@@ -7,7 +7,7 @@ router = APIRouter()
 DATA_PATH = 'app/data/videos'
 
 
-@router.post('/search-video')
+@router.post('/upload-video')
 async def save_video(file_video: UploadFile = File(...)):
     """Загрузка видео
 

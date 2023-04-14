@@ -37,3 +37,8 @@
     align-items: center;
     flex-direction: column;
   }
+
+.gufde{
+    width: 20px;
+    height: 20px;
+}

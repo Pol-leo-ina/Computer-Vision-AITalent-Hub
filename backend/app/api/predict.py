@@ -14,7 +14,8 @@ import torch.nn as nn
 router = APIRouter()
 
 DATA_PATH = 'app/data/videos/'
-IMAGES_PATH = 'app/data/images/'
+# IMAGES_PATH = 'app/data/images/'
+IMAGES_PATH = 'static/images/'
 
 
 # save every 5 sec of video

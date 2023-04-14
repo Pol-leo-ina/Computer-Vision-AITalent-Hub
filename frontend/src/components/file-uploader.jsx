@@ -1,26 +1,18 @@
 import "../styles/file-uploader.css";
+import gufde from '../public/gufde.gif';
 import React, { useState } from "react";
-//import React from "react";
-//import ReactDOM from "react-dom";
 
-class OnSecondPageButton extends React.Component {
-  onclick () {
-    window.location.assign('http://localhost:3000/second/');
-  }
 
-  render() {
-    return (<a onClick={(e) => this.onclick(e)}><i className="fas fa-chart-bar"></i></a>);
-  }
-}
-//export default Statistics_button;
-
-export const FileUploader = () => {
+export const FileUploader = (methods) => {
   const [image, setImage] = useState();
   const [imageURL, setImageURL] = useState();
+  const [isLoadingFile, setIsLoadingFile] = useState(false);
   const fileReader = new FileReader();
+
   fileReader.onloadend = () => {
     setImageURL(fileReader.result);
   };
+
   const handleOnChange = (event) => {
     event.preventDefault();
     if (event.target.files && event.target.files.length) {
@@ -44,8 +36,30 @@ export const FileUploader = () => {
     event.stopPropagation();
   };
 
+  function OnSecondPageButton(evt) {
+    evt.preventDefault()
+
+    console.log(image)
+
+    let data = new FormData()
+    data.append('file_video', image)
+
+    setIsLoadingFile(true)
+
+    methods.sendDataApi(data)
+
+      .then(data => {
+        console.log(data)
+        methods.setIsSecondPage(true)
+        setIsLoadingFile(false)
+      })
+      .catch(error => console.log(error))
+
+  }
+
   return (
-    <form className="file-uploader">
+    <form className="file-uploader" onSubmit={OnSecondPageButton}>
+      <h1>Check in Car</h1>
       <label
         htmlFor="file-loader-button"
         className="file-uploader__custom-button"
@@ -66,14 +80,22 @@ export const FileUploader = () => {
         onDragEnter={handleDragEmpty}
         onDragOver={handleDragEmpty}
       />
+
       <div className="file-uploader__file-name">{image ? image.name : ""}</div>
       <button
           htmlFor="file-start-button"
           className="file-start__custom-button"
-          onClick={OnSecondPageButton}
+          type="submit"
         >
           Запустить программу
         </button>
+
+        {isLoadingFile && 
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <p style={{ marginRight: '5px' }}>Загружается файл</p>
+          <img src={gufde} alt="gufde.gif" className="gufde" width="100" height="100"/>
+          </div>}
+      
     </form>
   );
 };
